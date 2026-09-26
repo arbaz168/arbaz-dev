@@ -1,5 +1,3 @@
-import type { Diagram } from "@/components/ArchDiagram";
-
 export const EMAIL = "arbaz.bajay@gmail.com";
 export const GITHUB = "https://github.com/arbaz168";
 export const LINKEDIN = "https://linkedin.com/in/arbazzkkhan";
@@ -23,149 +21,18 @@ export interface Product {
   role: string;
   period: string;
   summary: string;
-  diagramTitle: string;
-  diagram: Diagram;
+  /** Short proof points shown beside the preview. */
+  facts: { value: string; label: string }[];
+  /** The four features a reviewer should see first; the rest sit behind "How it's built". */
+  highlights: Feature[];
+  stack: string[];
+  /** Full-page captures of the live site. travel is how far the capture scrolls inside its frame. */
+  shots: {
+    desktop: { src: string; w: number; h: number; travel: string };
+    mobile: { src: string; w: number; h: number; travel: string };
+  };
   groups: FeatureGroup[];
 }
-
-export const stats = [
-  { value: 6, suffix: "+", label: "years shipping ASP.NET Core and React" },
-  { value: 2000, suffix: "+", label: "registered users on Sponsa" },
-  { value: 3, suffix: "", label: "payment providers integrated" },
-  { value: 360, suffix: "+", label: "automated tests on the Sponsa API" },
-];
-
-const sponsaDiagram: Diagram = {
-  wide: {
-    w: 1000,
-    h: 470,
-    nodeW: 175,
-    nodes: [
-      { id: "supporter", label: "Supporter", sub: "Tip page, React 19", x: 20, y: 30 },
-      { id: "providers", label: "PayPal, Ryft", sub: "Takes the payment", x: 215, y: 30, tone: "flow" },
-      { id: "endpoint", label: "Webhook endpoint", sub: "Verify, store, 200", x: 410, y: 30 },
-      { id: "inbox", label: "Webhook inbox", sub: "Deduped on event id", x: 605, y: 30, tone: "flow" },
-      { id: "workers", label: "Leased workers", sub: "Retry, dead-letter", x: 800, y: 30 },
-      { id: "recon", label: "Reconciliation", sub: "Finds lost webhooks", x: 410, y: 140 },
-      { id: "sql", label: "SQL Server", sub: "Paid, goal progress", x: 800, y: 140, tone: "ok" },
-      { id: "ws", label: "WebSocket hub", sub: "Per creator feed", x: 605, y: 250 },
-      { id: "bots", label: "Chatbots", sub: "Twitch, YouTube, X", x: 800, y: 250 },
-      { id: "obs", label: "OBS overlay", sub: "Alerts, goal bar", x: 410, y: 250, tone: "ok" },
-      { id: "browser", label: "Image request", sub: "Width per layout slot", x: 20, y: 380 },
-      { id: "cdn", label: "CloudFront", sub: "/_r/{width}/ cache", x: 215, y: 380 },
-      { id: "lambda", label: "Lambda resizer", sub: "On a miss, resize once", x: 410, y: 380, tone: "flow" },
-      { id: "s3", label: "S3 media", sub: "Private bucket", x: 605, y: 380 },
-    ],
-    edges: [
-      { from: "supporter", to: "providers", tone: "flow" },
-      { from: "providers", to: "endpoint", tone: "flow" },
-      { from: "endpoint", to: "inbox", tone: "flow" },
-      { from: "inbox", to: "workers", tone: "flow" },
-      { from: "workers", to: "sql", tone: "ok" },
-      { from: "recon", to: "providers", tone: "aux", via: "v" },
-      { from: "recon", to: "sql", tone: "aux" },
-      { from: "sql", to: "ws", tone: "ok", via: "v" },
-      { from: "sql", to: "bots", tone: "ok" },
-      { from: "ws", to: "obs", tone: "ok" },
-      { from: "browser", to: "cdn", tone: "flow" },
-      { from: "cdn", to: "lambda", tone: "flow" },
-      { from: "lambda", to: "s3", tone: "flow" },
-    ],
-  },
-  tall: {
-    w: 360,
-    h: 760,
-    nodes: [
-      { id: "supporter", label: "Supporter", sub: "Tip page, React 19", x: 10, y: 10 },
-      { id: "providers", label: "PayPal, Ryft", sub: "Takes the payment", x: 190, y: 10, tone: "flow" },
-      { id: "inbox", label: "Webhook inbox", sub: "Deduped on event id", x: 10, y: 100, tone: "flow" },
-      { id: "endpoint", label: "Webhook endpoint", sub: "Verify, store, 200", x: 190, y: 100 },
-      { id: "workers", label: "Leased workers", sub: "Retry, dead-letter", x: 10, y: 190 },
-      { id: "sql", label: "SQL Server", sub: "Paid, goal progress", x: 10, y: 280, tone: "ok" },
-      { id: "recon", label: "Reconciliation", sub: "Finds lost webhooks", x: 190, y: 280 },
-      { id: "ws", label: "WebSocket hub", sub: "Per creator feed", x: 10, y: 370 },
-      { id: "bots", label: "Chatbots", sub: "Twitch, YouTube, X", x: 190, y: 370 },
-      { id: "obs", label: "OBS overlay", sub: "Alerts, goal bar", x: 10, y: 460, tone: "ok" },
-      { id: "browser", label: "Image request", sub: "Width per slot", x: 10, y: 590 },
-      { id: "cdn", label: "CloudFront", sub: "/_r/{width}/ cache", x: 190, y: 590 },
-      { id: "s3", label: "S3 media", sub: "Private bucket", x: 10, y: 690 },
-      { id: "lambda", label: "Lambda resizer", sub: "On a miss, resize once", x: 190, y: 690, tone: "flow" },
-    ],
-    edges: [
-      { from: "supporter", to: "providers", tone: "flow" },
-      { from: "providers", to: "endpoint", tone: "flow" },
-      { from: "endpoint", to: "inbox", tone: "flow" },
-      { from: "inbox", to: "workers", tone: "flow" },
-      { from: "workers", to: "sql", tone: "ok" },
-      { from: "recon", to: "sql", tone: "aux" },
-      { from: "sql", to: "ws", tone: "ok" },
-      { from: "sql", to: "bots", tone: "ok", via: "v" },
-      { from: "ws", to: "obs", tone: "ok" },
-      { from: "browser", to: "cdn", tone: "flow" },
-      { from: "cdn", to: "lambda", tone: "flow" },
-      { from: "lambda", to: "s3", tone: "flow" },
-    ],
-  },
-};
-
-const liveHireDiagram: Diagram = {
-  wide: {
-    w: 1000,
-    h: 390,
-    nodeW: 200,
-    nodes: [
-      { id: "company", label: "Company portal", sub: "Next.js 16, React 19", x: 20, y: 30 },
-      { id: "developer", label: "Developer portal", sub: "Timer, chat, calls", x: 20, y: 150 },
-      { id: "admin", label: "Admin console", sub: "React 19, Vite", x: 20, y: 300 },
-      { id: "api", label: "Client API", sub: ".NET 10, JWT cookies", x: 270, y: 90, tone: "flow" },
-      { id: "adminapi", label: "Admin API", sub: "Rates, wallets", x: 270, y: 300 },
-      { id: "hubs", label: "SignalR hubs", sub: "Chat, presence, push", x: 520, y: 20, tone: "ok" },
-      { id: "time", label: "Time tracking", sub: "Server-stamped", x: 520, y: 120 },
-      { id: "escrow", label: "Escrow billing", sub: "Hold, invoice, settle", x: 520, y: 220, tone: "flow" },
-      { id: "agora", label: "Agora calls", sub: "Per-call tokens", x: 780, y: 20 },
-      { id: "sql", label: "SQL Server", sub: "EF Core migrations", x: 780, y: 300, tone: "ok" },
-    ],
-    edges: [
-      { from: "company", to: "api", tone: "flow" },
-      { from: "developer", to: "api", tone: "flow" },
-      { from: "admin", to: "adminapi", tone: "flow" },
-      { from: "api", to: "hubs", tone: "ok" },
-      { from: "api", to: "time", tone: "flow" },
-      { from: "api", to: "escrow", tone: "flow" },
-      { from: "time", to: "escrow", tone: "flow", label: "approved hours", via: "v" },
-      { from: "hubs", to: "agora", tone: "aux" },
-      { from: "escrow", to: "sql", tone: "ok" },
-      { from: "adminapi", to: "sql", tone: "aux" },
-    ],
-  },
-  tall: {
-    w: 360,
-    h: 560,
-    nodes: [
-      { id: "company", label: "Company portal", sub: "Next.js 16", x: 10, y: 10 },
-      { id: "developer", label: "Developer portal", sub: "Timer, chat, calls", x: 190, y: 10 },
-      { id: "api", label: "Client API", sub: ".NET 10, JWT cookies", x: 100, y: 110, tone: "flow" },
-      { id: "hubs", label: "SignalR hubs", sub: "Chat, presence, push", x: 10, y: 210, tone: "ok" },
-      { id: "time", label: "Time tracking", sub: "Server-stamped", x: 190, y: 210 },
-      { id: "agora", label: "Agora calls", sub: "Per-call tokens", x: 10, y: 310 },
-      { id: "escrow", label: "Escrow billing", sub: "Hold, invoice, settle", x: 190, y: 310, tone: "flow" },
-      { id: "sql", label: "SQL Server", sub: "EF Core migrations", x: 190, y: 410, tone: "ok" },
-      { id: "adminapi", label: "Admin API", sub: "Rates, wallets", x: 10, y: 410 },
-      { id: "admin", label: "Admin console", sub: "React 19, Vite", x: 10, y: 500 },
-    ],
-    edges: [
-      { from: "company", to: "api", tone: "flow", via: "v" },
-      { from: "developer", to: "api", tone: "flow", via: "v" },
-      { from: "api", to: "hubs", tone: "ok", via: "v" },
-      { from: "api", to: "time", tone: "flow", via: "v" },
-      { from: "time", to: "escrow", tone: "flow" },
-      { from: "hubs", to: "agora", tone: "aux" },
-      { from: "escrow", to: "sql", tone: "ok" },
-      { from: "adminapi", to: "sql", tone: "aux" },
-      { from: "admin", to: "adminapi", tone: "flow" },
-    ],
-  },
-};
 
 export const products: Product[] = [
   {
@@ -174,12 +41,38 @@ export const products: Product[] = [
     kind: "Creator monetization platform",
     url: "https://sponsa.app",
     urlLabel: "sponsa.app",
-    role: "Lead Full Stack Engineer, sole engineer",
-    period: "Nov 2023 to present",
+    role: "Sole engineer",
+    period: "since Nov 2023",
     summary:
       "Supporters tip creators toward funding goals, live on stream. Money moves through PayPal and Ryft, and alerts have to reach OBS within seconds. In production with 2,000+ registered users. I own the architecture, backend, frontend, AWS infrastructure, releases and incident response.",
-    diagramTitle: "How a tip moves through Sponsa",
-    diagram: sponsaDiagram,
+    facts: [
+      { value: "2,000+", label: "registered users" },
+      { value: "3", label: "payment providers" },
+      { value: "360+", label: "automated API tests" },
+    ],
+    highlights: [
+      {
+        title: "Payments that never double charge",
+        body: "Every PayPal and Ryft webhook is verified, stored and retried, and a redelivery is dropped on its event id.",
+      },
+      {
+        title: "A safety net for lost webhooks",
+        body: "A reconciliation job finds payments the provider completed but we never heard about, and logs every fix.",
+      },
+      {
+        title: "Alerts on stream within seconds",
+        body: "Tips and goal progress pushed to OBS over WebSockets while the creator is live.",
+      },
+      {
+        title: "Images sized for every screen",
+        body: "S3, CloudFront and Lambda resize on first request. A 393 KB upload reaches a phone as 32 KB.",
+      },
+    ],
+    stack: ["ASP.NET Core 10", "EF Core", "SQL Server", "React 19", "AWS", "PayPal", "Ryft", "WebSockets"],
+    shots: {
+      desktop: { src: "/work/sponsa-desktop.webp", w: 2160, h: 7914, travel: "-83%" },
+      mobile: { src: "/work/sponsa-mobile.webp", w: 780, h: 10842, travel: "-84%" },
+    },
     groups: [
       {
         name: "Moving money",
@@ -272,12 +165,38 @@ export const products: Product[] = [
     kind: "Managed talent hiring platform",
     url: "https://livehire.gentechs.io",
     urlLabel: "livehire.gentechs.io",
-    role: "Lead Full Stack Engineer",
-    period: "Aug 2025 to present",
+    role: "Lead engineer",
+    period: "since Aug 2025",
     summary:
       "Companies hire pre-vetted developers and run the whole engagement in one place: chat and calls, time tracking, milestones and billing. I took over an existing codebase and rebuilt it across two APIs, a Next.js portal for companies and developers, and an admin console.",
-    diagramTitle: "How LiveHire fits together",
-    diagram: liveHireDiagram,
+    facts: [
+      { value: "2", label: "APIs sharing one database" },
+      { value: "63", label: "missing indexes added" },
+      { value: "22", label: "end to end test harnesses" },
+    ],
+    highlights: [
+      {
+        title: "Escrow billing with a ledger",
+        body: "Funds are held at hire and settled each period against approved time. Every movement is a ledger row.",
+      },
+      {
+        title: "Time the server can vouch for",
+        body: "The server stamps every start, stop and break, and one running timer per developer is enforced in the database.",
+      },
+      {
+        title: "Chat and calls that hold together",
+        body: "SignalR chat with presence, typing, edits and search, plus video calls from inside a conversation.",
+      },
+      {
+        title: "Push instead of polling",
+        body: "Notifications go out the moment they commit, replacing nine polling timers per browser tab.",
+      },
+    ],
+    stack: ["ASP.NET Core 10", "SignalR", "SQL Server", "EF Core", "Next.js 16", "React 19", "Agora"],
+    shots: {
+      desktop: { src: "/work/livehire-desktop.webp", w: 2160, h: 6164, travel: "-78%" },
+      mobile: { src: "/work/livehire-mobile.webp", w: 780, h: 13814, travel: "-88%" },
+    },
     groups: [
       {
         name: "Money and time",
@@ -373,63 +292,35 @@ export const repos = [
   },
 ];
 
-export interface TimelineEntry {
-  when: string;
-  title: string;
-  org: string;
-  body: string;
-  tone: "flow" | "ok";
-}
+/** One employer, with the client products I lead nested under it. */
+export const experience = {
+  title: "Lead Full Stack Engineer",
+  org: "CoinBitSolutions",
+  period: "Jan 2020 to present",
+  roles: [
+    { name: "LiveHire", period: "since Aug 2025", body: "Lead engineer. Took over an existing hiring platform and rebuilt billing, time tracking and the real-time workspace." },
+    { name: "Sponsa", period: "since Nov 2023", body: "Sole engineer on a creator tipping platform, taken to production and 2,000+ registered users." },
+    { name: "Client platforms", period: "2020 to 2023", body: "Healthcare and fintech products for international clients: REST APIs, SQL Server schemas, admin portals and trading UIs." },
+  ],
+  cert: { name: "Microsoft Certified: Azure Administrator Associate", period: "2026" },
+};
 
-export const timeline: TimelineEntry[] = [
+export const services = [
   {
-    when: "Jan 2020",
-    title: "Lead Full Stack Engineer",
-    org: "CoinBitSolutions",
-    body: "Full stack product work in ASP.NET Core and React, from APIs and databases to frontends and cloud deployment.",
-    tone: "ok",
+    title: "Your SaaS, end to end",
+    body: "An ASP.NET Core API, a React or Next.js frontend and the AWS or Azure setup to run it, built by one engineer who has taken products to production.",
   },
   {
-    when: "Nov 2023",
-    title: "Lead Full Stack Engineer",
-    org: "Sponsa",
-    body: "Sole engineer on a creator tipping platform, taken to production and 2,000+ registered users.",
-    tone: "ok",
+    title: "Payments that add up",
+    body: "PayPal, Stripe Connect or Ryft wired in properly: verified webhooks, retries, refunds and a reconciliation job, so no payment goes missing.",
   },
   {
-    when: "Aug 2025",
-    title: "Lead Full Stack Engineer",
-    org: "LiveHire",
-    body: "Took over an existing hiring platform and rebuilt its domain model, billing, time tracking and real-time workspace.",
-    tone: "ok",
+    title: "Real-time features",
+    body: "Live chat, notifications, presence and stream overlays with SignalR or WebSockets that survive reconnects and bursts.",
   },
   {
-    when: "Aug 2026",
-    title: "Payments hardening",
-    org: "Sponsa",
-    body: "Webhook inbox, offline signature verification, reconciliation, S3 and CloudFront, and the move to .NET 10.",
-    tone: "flow",
-  },
-  {
-    when: "Sep 2026",
-    title: "Escrow, migrations and push",
-    org: "LiveHire",
-    body: "Escrow billing, the production schema under EF Core migrations, pushed notifications and video calls.",
-    tone: "flow",
-  },
-  {
-    when: "Sep 2026",
-    title: "Edge images, API tokens, React 19",
-    org: "Sponsa",
-    body: "Resize-on-miss image CDN, multi-currency goals, personal access tokens, React 19 and Tailwind 4.",
-    tone: "flow",
-  },
-  {
-    when: "Sep 2026",
-    title: "Open source",
-    org: "GitHub",
-    body: "Two production patterns rebuilt from scratch in public: a webhook inbox and a SignalR overlay.",
-    tone: "flow",
+    title: "Rescue and upgrade",
+    body: "Take over an existing codebase, fix what is slowing it down, move it to current .NET and React, and leave it tested.",
   },
 ];
 

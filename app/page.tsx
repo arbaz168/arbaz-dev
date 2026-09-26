@@ -1,81 +1,116 @@
-import { ArchDiagram } from "@/components/ArchDiagram";
-import { Counter } from "@/components/Counter";
+import type { CSSProperties } from "react";
 import { Ext } from "@/components/Ext";
-import { HeroFlow } from "@/components/HeroFlow";
-import { Reveal } from "@/components/Reveal";
-import { Timeline } from "@/components/Timeline";
+import { BrowserFrame, PhoneFrame } from "@/components/Frames";
+import { ScrollShot } from "@/components/ScrollShot";
+import { Tilt } from "@/components/Tilt";
 import { WebhookSimulator } from "@/components/WebhookSimulator";
-import { EMAIL, GITHUB, LINKEDIN, type Product, products, repos, stack, stats, timeline } from "@/lib/content";
+import { EMAIL, GITHUB, LINKEDIN, type Product, experience, products, repos, services, stack } from "@/lib/content";
+
+const [sponsa, livehire] = products;
 
 const nav = [
   { href: "#work", label: "Work" },
-  { href: "#simulator", label: "Simulator" },
+  { href: "#open-source", label: "Open source" },
+  { href: "#services", label: "Services" },
   { href: "#experience", label: "Experience" },
-  { href: "#stack", label: "Stack" },
 ];
 
-function ProductSection({ p }: { p: Product }) {
-  const count = p.groups.reduce((n, g) => n + g.features.length, 0);
+const projectMail = `mailto:${EMAIL}?subject=${encodeURIComponent("Project enquiry")}`;
+
+function Name({ text }: { text: string }) {
+  let i = 0;
   return (
-    <section id={p.id} className="product wrap" aria-labelledby={`${p.id}-title`}>
-      <Reveal className="product-head">
-        <div>
-          <h2 id={`${p.id}-title`} className="product-name">
+    <span className="name-letters" aria-hidden>
+      {text.split(" ").map((word) => (
+        <span key={word} className="name-word">
+          {word.split("").map((ch) => (
+            <span key={i} className="name-letter" style={{ "--i": i++ } as CSSProperties}>
+              {ch}
+            </span>
+          ))}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function ProductSection({ p, flip }: { p: Product; flip?: boolean }) {
+  const count = p.groups.reduce((n, g) => n + g.features.length, 0);
+  const titleId = `${p.id}-title`;
+  return (
+    <ScrollShot id={p.id} className={`product ${flip ? "flip" : ""}`} labelledBy={titleId}>
+      <div className="wrap product-grid" data-track>
+        <div className="product-copy">
+          <h3 id={titleId} className="product-name">
+            <span className={`product-dot dot-${p.id}`} aria-hidden />
             {p.name}
-          </h2>
-          <p className="product-kind">{p.kind}</p>
+          </h3>
+          <p className="product-kind">
+            {p.kind}. {p.role} {p.period}.
+          </p>
+          <p className="product-summary">{p.summary}</p>
+
+          <dl className="facts">
+            {p.facts.map((f) => (
+              <div key={f.label}>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <ul className="highlights">
+            {p.highlights.map((h) => (
+              <li key={h.title}>
+                <h4>{h.title}</h4>
+                <p>{h.body}</p>
+              </li>
+            ))}
+          </ul>
+
+          <ul className="chips" aria-label={`${p.name} stack`}>
+            {p.stack.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+
+          <div className="actions">
+            <Ext className="btn btn-dark" href={p.url}>
+              Visit {p.urlLabel}
+            </Ext>
+          </div>
         </div>
-        <dl className="product-meta">
-          <div>
-            <dt>Role</dt>
-            <dd>{p.role}</dd>
-          </div>
-          <div>
-            <dt>Period</dt>
-            <dd>{p.period}</dd>
-          </div>
-          <div>
-            <dt>Live at</dt>
-            <dd>
-              <Ext href={p.url}>{p.urlLabel}</Ext>
-            </dd>
-          </div>
-        </dl>
-      </Reveal>
 
-      <Reveal>
-        <p className="product-summary">{p.summary}</p>
-      </Reveal>
-
-      <div className="diagram-wrap">
-        <h3 className="diagram-title">{p.diagramTitle}</h3>
-        <ArchDiagram diagram={p.diagram} title={p.diagramTitle} />
+        <div className="product-stage" data-stage>
+          <BrowserFrame shot={p.shots.desktop} url={p.urlLabel} alt={`${p.name} home page on desktop`} />
+          <PhoneFrame shot={p.shots.mobile} alt={`${p.name} home page on a phone`} />
+        </div>
       </div>
 
-      <h3 className="sr-only">
-        {count} things I built on {p.name}
-      </h3>
-      <div className="groups">
-        {p.groups.map((g) => (
-          <div key={g.name} className="group">
-            <h4 className="group-name">
-              {g.name}
-              <span className="group-count">{g.features.length}</span>
-            </h4>
-            <ul className="features">
-              {g.features.map((f, i) => (
-                <li key={f.title}>
-                  <Reveal delay={(i % 2) * 70}>
-                    <h5>{f.title}</h5>
-                    <p>{f.body}</p>
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
+      <div className="wrap">
+        <details className="built">
+          <summary>
+            <span>How {p.name} is built</span>
+            <span className="built-count">{count} features in detail</span>
+          </summary>
+          <div className="built-groups">
+            {p.groups.map((g) => (
+              <div key={g.name} className="built-group">
+                <h4>{g.name}</h4>
+                <ul>
+                  {g.features.map((f) => (
+                    <li key={f.title}>
+                      <h5>{f.title}</h5>
+                      <p>{f.body}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-        ))}
+        </details>
       </div>
-    </section>
+    </ScrollShot>
   );
 }
 
@@ -86,162 +121,191 @@ export default function Home() {
         Skip to content
       </a>
       <header className="topbar">
-        <div className="wrap topbar-inner">
+        <nav className="topbar-inner" aria-label="Sections">
           <a href="#top" className="brand">
             Arbaz Khan
           </a>
-          <nav aria-label="Sections">
+          <span className="nav-links">
             {nav.map((n) => (
-              <a key={n.href} href={n.href} className="nav-link">
+              <a key={n.href} href={n.href}>
                 {n.label}
               </a>
             ))}
-            <a href="#contact" className="nav-cta">
-              Contact
-            </a>
-          </nav>
-        </div>
+          </span>
+          <a href={`mailto:${EMAIL}`} className="nav-cta">
+            Email me
+          </a>
+        </nav>
       </header>
 
       <main id="main">
-        <section id="top" className="hero wrap">
-          <div className="hero-copy">
-            <h1 className="hero-name">Arbaz Khan</h1>
-            <p className="hero-role">Senior full stack engineer. ASP.NET Core, React and AWS.</p>
-            <p className="hero-lede">
-              I build the parts of a SaaS product where money and messages move: payment providers, webhooks, ledgers
-              and real-time feeds. Then I run them in production.
-            </p>
-            <div className="actions">
-              <a className="button primary" href={`mailto:${EMAIL}`}>
-                Email me
-              </a>
-              <Ext className="button" href={GITHUB}>
-                GitHub
-              </Ext>
-              <Ext className="button" href={LINKEDIN}>
-                LinkedIn
-              </Ext>
+        <section id="top" className="hero">
+          <div className="wrap hero-grid">
+            <h1 className="hero-name">
+              <span className="sr-only">Arbaz Khan, senior full stack engineer</span>
+              <Name text="Arbaz Khan" />
+            </h1>
+            <div className="hero-copy">
+              <p className="hero-lede">I build and run SaaS products where money and messages move.</p>
+              <p className="hero-sub">
+                Senior full stack engineer. ASP.NET Core, React and AWS, 6+ years shipping to real users. Right now I lead
+                two live products: Sponsa and LiveHire.
+              </p>
+              <div className="actions">
+                <a className="btn btn-butter" href="#work">
+                  See my work
+                </a>
+                <a className="btn btn-ghost" href={`mailto:${EMAIL}`}>
+                  Email me
+                </a>
+              </div>
+              <p className="availability">
+                <span className="pulse" aria-hidden />
+                Available for senior roles, relocation and freelance projects
+              </p>
             </div>
-            <p className="availability">
-              <span className="pulse" aria-hidden />
-              Open to senior remote roles and relocation
-            </p>
-          </div>
-          <div className="hero-visual">
-            <HeroFlow />
-          </div>
-        </section>
 
-        <section className="wrap stats" aria-label="In numbers">
-          {stats.map((s, i) => (
-            <Reveal key={s.label} className="stat" delay={i * 90}>
-              <span className="stat-value">
-                <Counter value={s.value} suffix={s.suffix} />
-              </span>
-              <span className="stat-label">{s.label}</span>
-            </Reveal>
-          ))}
+            <Tilt className="hero-stage">
+              <div className="stage-back">
+                <BrowserFrame shot={sponsa.shots.desktop} url={sponsa.urlLabel} alt="Sponsa, live" auto />
+              </div>
+              <div className="stage-front">
+                <BrowserFrame shot={livehire.shots.desktop} url={livehire.urlLabel} alt="LiveHire, live" auto />
+              </div>
+            </Tilt>
+          </div>
         </section>
 
         <div id="work" className="work">
-          <Reveal className="wrap section-intro">
-            <h2>Two platforms I lead</h2>
-            <p>
-              The hardest and most recent work from each. Both run on ASP.NET Core with React frontends, and I own them
-              from the database to the browser.
-            </p>
-          </Reveal>
-          {products.map((p) => (
-            <ProductSection key={p.id} p={p} />
-          ))}
+          <div className="wrap">
+            <div className="section-head">
+              <h2>Two live products I lead</h2>
+              <p>
+                Both run on ASP.NET Core with React frontends, and I own them from the database to the browser. The
+                previews are the real sites.
+              </p>
+            </div>
+          </div>
+          <ProductSection p={sponsa} />
+          <ProductSection p={livehire} flip />
         </div>
 
-        <section id="simulator" className="wrap section" aria-labelledby="sim-title">
-          <Reveal className="section-intro">
-            <h2 id="sim-title">Payment webhooks, where money quietly goes missing</h2>
-            <p>
-              Providers deliver webhooks at least once, in any order, sometimes before your own checkout has committed.
-              This is a live model of the pattern I run in production: verify and store first, process in leased
-              workers, retry with backoff, and dead-letter what can never succeed. It runs entirely in your browser.{" "}
-              <Ext href={`${GITHUB}/aspnetcore-webhook-inbox`}>See the real implementation and its tests.</Ext>
-            </p>
-          </Reveal>
-          <WebhookSimulator />
-        </section>
-
-        <section id="open-source" className="wrap section" aria-labelledby="oss-title">
-          <Reveal className="section-intro">
-            <h2 id="oss-title">Production patterns, rebuilt in public</h2>
-            <p>Written from scratch, with no client code, so the patterns can be read and run by anyone.</p>
-          </Reveal>
-          <div className="repos">
-            {repos.map((r, i) => (
-              <Reveal key={r.name} delay={i * 90}>
-                <Ext className="repo" href={`${GITHUB}/${r.name}`}>
-                  <span className="repo-name">{r.name}</span>
-                  <span className="repo-body">{r.body}</span>
-                  <span className="repo-meta">
-                    <span>{r.lang}</span>
-                    <span>{r.tests}</span>
-                  </span>
-                </Ext>
-              </Reveal>
-            ))}
+        <section id="open-source" className="oss" aria-labelledby="oss-title">
+          <div className="wrap">
+            <div className="section-head">
+              <h2 id="oss-title">The hard parts, rebuilt in public</h2>
+              <p>The patterns behind both products, written from scratch with no client code, so anyone can read and run them.</p>
+            </div>
+            <div className="repos">
+              {repos.map((r) => (
+                <article key={r.name} className="repo">
+                  <h3>{r.name}</h3>
+                  <p>{r.body}</p>
+                  <p className="repo-meta">
+                    {r.lang}, {r.tests}
+                  </p>
+                  <Ext className="btn btn-butter" href={`${GITHUB}/${r.name}`}>
+                    Read the code
+                  </Ext>
+                </article>
+              ))}
+            </div>
+            <details className="sim-drawer">
+              <summary>
+                <span>Try the webhook inbox in your browser</span>
+                <span className="built-count">Six failure scenarios, running live</span>
+              </summary>
+              <p className="sim-intro">
+                Providers deliver webhooks at least once, in any order, sometimes before your checkout has committed. Pick
+                a scenario and watch the inbox verify, store, retry and dead-letter.
+              </p>
+              <WebhookSimulator />
+            </details>
           </div>
         </section>
 
-        <section id="experience" className="wrap section split" aria-labelledby="exp-title">
-          <Reveal className="section-intro">
-            <h2 id="exp-title">Experience</h2>
-            <p>Roles first, then the stretches of work that moved each product the most.</p>
-          </Reveal>
-          <Timeline entries={timeline} />
+        <section id="services" className="services" aria-labelledby="services-title">
+          <div className="wrap">
+            <div className="section-head">
+              <h2 id="services-title">Hire me for a project</h2>
+              <p>Freelance or contract, fully remote. You work directly with the engineer who builds and ships it.</p>
+            </div>
+            <ul className="service-list">
+              {services.map((s) => (
+                <li key={s.title}>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </li>
+              ))}
+            </ul>
+            <a className="btn btn-dark" href={projectMail}>
+              Tell me about your project
+            </a>
+          </div>
         </section>
 
-        <section id="stack" className="wrap section" aria-labelledby="stack-title">
-          <Reveal className="section-intro">
-            <h2 id="stack-title">Stack</h2>
-            <p>What I use in production today, not a list of everything I have touched.</p>
-          </Reveal>
-          <dl className="stack">
-            {stack.map((s, i) => (
-              <Reveal key={s.area} className="stack-row" delay={i * 50}>
-                <dt>{s.area}</dt>
-                <dd>
-                  <ul>
-                    {s.tools.map((t) => (
-                      <li key={t}>{t}</li>
-                    ))}
-                  </ul>
-                </dd>
-              </Reveal>
-            ))}
-          </dl>
+        <section id="experience" className="experience" aria-labelledby="exp-title">
+          <div className="wrap exp-grid">
+            <div>
+              <h2 id="exp-title">Experience</h2>
+              <div className="job">
+                <h3>{experience.title}</h3>
+                <p className="job-meta">
+                  {experience.org}, {experience.period}
+                </p>
+                <ul className="job-roles">
+                  {experience.roles.map((r) => (
+                    <li key={r.name}>
+                      <h4>
+                        {r.name} <span>{r.period}</span>
+                      </h4>
+                      <p>{r.body}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <p className="cert">
+                {experience.cert.name}, {experience.cert.period}
+              </p>
+            </div>
+            <div>
+              <h2>Stack</h2>
+              <dl className="stack">
+                {stack.map((s) => (
+                  <div key={s.area}>
+                    <dt>{s.area}</dt>
+                    <dd>{s.tools.join(", ")}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
         </section>
 
-        <section id="contact" className="wrap contact" aria-labelledby="contact-title">
-          <Reveal>
-            <h2 id="contact-title">Hiring for a senior .NET or full stack role?</h2>
-            <p>I&apos;m open to senior remote roles and relocation. Email is the fastest way to reach me.</p>
+        <section id="contact" className="contact" aria-labelledby="contact-title">
+          <div className="wrap">
+            <h2 id="contact-title">Got something that needs to ship?</h2>
+            <p>Open to senior roles, relocation and freelance projects. Email is the fastest way to reach me.</p>
             <a className="contact-email" href={`mailto:${EMAIL}`}>
               {EMAIL}
             </a>
             <div className="actions">
-              <Ext className="button" href={LINKEDIN}>
+              <Ext className="btn btn-butter" href={LINKEDIN}>
                 LinkedIn
               </Ext>
-              <Ext className="button" href={GITHUB}>
+              <Ext className="btn btn-ghost" href={GITHUB}>
                 GitHub
               </Ext>
             </div>
-          </Reveal>
+          </div>
         </section>
       </main>
 
-      <footer className="wrap footer">
-        <span>© {new Date().getFullYear()} Arbaz Khan</span>
-        <a href="#top">Back to top</a>
+      <footer className="footer">
+        <div className="wrap footer-inner">
+          <span>© {new Date().getFullYear()} Arbaz Khan</span>
+          <a href="#top">Back to top</a>
+        </div>
       </footer>
     </>
   );

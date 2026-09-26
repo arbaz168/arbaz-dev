@@ -1,6 +1,6 @@
 # arbaz-dev
 
-Personal site: one static page with an animated hero, case studies with architecture diagrams, a live webhook inbox simulator, an experience timeline and contact details. Content lives in `lib/content.ts`.
+Personal site: one static page with an animated hero, Sponsa and LiveHire case studies previewed from full-page captures of the live sites (`public/work`), open source repos with a live webhook inbox simulator, services, experience and contact details. Content lives in `lib/content.ts`.
 
 All motion stops under `prefers-reduced-motion`.
 
