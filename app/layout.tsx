@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description,
   metadataBase: new URL("https://arbaz-dev.vercel.app"),
   openGraph: { title, description, type: "website", url: "/" },
+  twitter: { card: "summary_large_image", title, description },
 };
 
 export const viewport: Viewport = {
