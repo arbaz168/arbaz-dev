@@ -1,5 +1,5 @@
 /* Cobalt and butter. Cobalt fields open and close the page; the work sits on cool porcelain so the
-   real product screenshots carry their own colour. Anybody's width axis is the one loud typographic move. */
+   real product screenshots carry their own colour. The display face's width axis is the one loud typographic move. */
 :root {
   --cobalt: #2b34e0;
   --cobalt-deep: #1f27b4;
@@ -1498,80 +1498,89 @@ h5 {
 /* ---------- Open source ---------- */
 
 
-/* ---------- Cobalt Night ----------
-   Dark navy page lit by cobalt glows, with the name in a white-to-gold gradient. Overrides the
-   light tokens above; butter becomes the one accent for text, buttons and markers. */
+/* ---------- Aurora ----------
+   Near-black page lit by cyan, violet and pink glows, with the name in a cyan-to-pink gradient.
+   Overrides the light tokens above; cyan is the one accent for buttons, numbers and markers. */
 :root {
-  --porcelain: #0a0d2c;
-  --night: #f1f2ff;
-  --white: #12163d;
-  --ink-soft: #a9aee0;
-  --line: #262b62;
-  --peri: #c3c7ff;
-  --cobalt: #ffd24d;
-  --night-2: #12163d;
+  --porcelain: #0b0b1e;
+  --night: #f3f1ff;
+  --white: #15152f;
+  --ink-soft: #a6a6cc;
+  --line: #2a2a4d;
+  --butter: #5ef2ff;
+  --peri: #c9c6f0;
+  --cobalt: #5ef2ff;
+  --night-2: #15152f;
   color-scheme: dark;
 }
 
 .hero {
-  color: #f1f2ff;
+  color: #f3f1ff;
   background:
-    radial-gradient(1000px 650px at 75% 40%, rgba(43, 52, 224, 0.75), transparent 70%),
-    radial-gradient(600px 400px at 0% 100%, rgba(43, 52, 224, 0.4), transparent 70%),
-    #0a0d2c;
+    radial-gradient(900px 600px at 80% 30%, rgba(94, 242, 255, 0.22), transparent 70%),
+    radial-gradient(800px 600px at 60% 90%, rgba(190, 90, 255, 0.28), transparent 70%),
+    radial-gradient(600px 400px at 0% 100%, rgba(255, 90, 170, 0.22), transparent 70%),
+    #0b0b1e;
 }
 
 .name-letter {
-  background: linear-gradient(100deg, #fff 20%, #ffd24d 55%, #ff9e7d);
+  background: linear-gradient(100deg, #5ef2ff, #a78bff 50%, #ff7ac8);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .oss {
-  color: #f1f2ff;
-  background: radial-gradient(800px 500px at 90% 0%, rgba(43, 52, 224, 0.45), transparent 70%), #070920;
+  color: #f3f1ff;
+  background: radial-gradient(800px 500px at 90% 0%, rgba(190, 90, 255, 0.25), transparent 70%), #07071a;
 }
 
 .contact {
-  color: #f1f2ff;
-  background: radial-gradient(900px 600px at 15% 20%, rgba(43, 52, 224, 0.8), transparent 70%), #0a0d2c;
+  color: #f3f1ff;
+  background:
+    radial-gradient(900px 600px at 20% 20%, rgba(94, 242, 255, 0.2), transparent 70%),
+    radial-gradient(700px 500px at 90% 90%, rgba(255, 90, 170, 0.25), transparent 70%),
+    #0b0b1e;
 }
 
 .footer {
-  background: #070920;
+  background: #07071a;
 }
 
 .topbar-inner {
-  background: rgba(18, 22, 61, 0.78);
-  color: #f1f2ff;
+  background: rgba(21, 21, 47, 0.78);
+  color: #f3f1ff;
 }
 
 .btn-dark {
-  background: #ffd24d;
-  color: #0a0d2c;
+  background: #5ef2ff;
+  color: #0b0b1e;
 }
 
 .btn-dark:hover {
-  background: #ffe28a;
+  background: #a0f7ff;
 }
 
 .btn-ghost {
-  color: #f1f2ff;
+  color: #f3f1ff;
 }
 
 .btn-butter,
 .nav-cta,
 .skip {
-  color: #0a0d2c;
+  color: #0b0b1e;
+}
+
+.btn-butter {
+  box-shadow: 0 10px 24px -12px rgba(94, 242, 255, 0.8);
 }
 
 .repo-meta {
-  color: #f1f2ff !important;
+  color: #f3f1ff !important;
 }
 
 .service-list,
 .stack > div:first-child,
 .built-group h4 {
-  border-color: #3a3f80;
+  border-color: #34345e;
 }

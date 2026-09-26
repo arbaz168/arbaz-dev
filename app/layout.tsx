@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Anybody, Instrument_Sans } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 
-// Anybody's width axis is what the hero name animates; Instrument Sans carries everything else.
-const display = Anybody({ subsets: ["latin"], axes: ["wdth"], variable: "--font-display", display: "swap" });
+// Bricolage Grotesque's width axis is what the hero name animates; Instrument Sans carries everything else.
+const display = Bricolage_Grotesque({ subsets: ["latin"], axes: ["wdth", "opsz"], variable: "--font-display", display: "swap" });
 const sans = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--font-sans", display: "swap" });
 
 const title = "Arbaz Khan, Senior Full Stack Engineer";
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0d2c",
+  themeColor: "#0b0b1e",
   colorScheme: "dark",
 };
 
