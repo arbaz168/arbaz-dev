@@ -276,8 +276,8 @@ h5 {
   display: grid;
   grid-template-areas:
     "name"
-    "photo"
-    "copy";
+    "copy"
+    "stage";
   gap: clamp(28px, 5vw, 48px);
 }
 
@@ -475,35 +475,29 @@ h5 {
   }
 }
 
-/* The portrait, lit by the page's own glows. Its black background melts into them, and the edges fade out. */
-.hero-photo {
-  grid-area: photo;
+/* The two live products, overlapping like windows on a desk. */
+.hero-stage {
+  grid-area: stage;
   position: relative;
-  isolation: isolate;
-  justify-self: center;
-  width: min(100%, 230px);
-  -webkit-mask-image: radial-gradient(ellipse 54% 49% at 50% 45%, #000 56%, transparent 100%), linear-gradient(#000 88%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image: radial-gradient(ellipse 54% 49% at 50% 45%, #000 56%, transparent 100%), linear-gradient(#000 88%, transparent);
-  mask-composite: intersect;
-  animation: float-in 1.3s var(--ease) 0.4s both;
+  padding-bottom: 20%;
 }
 
-.hero-photo::before {
-  content: "";
+.stage-back,
+.stage-front {
+  animation: float-in 1.2s var(--ease) both;
+}
+
+.stage-back {
+  width: 82%;
+  animation-delay: 0.35s;
+}
+
+.stage-front {
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(60% 42% at 50% 36%, rgba(94, 242, 255, 0.32), transparent 70%),
-    radial-gradient(70% 45% at 72% 88%, rgba(190, 90, 255, 0.34), transparent 70%),
-    #0b0b1e;
-}
-
-.hero-photo img {
-  width: 100%;
-  height: auto;
-  mix-blend-mode: lighten;
+  right: 0;
+  bottom: 0;
+  width: 66%;
+  animation-delay: 0.55s;
 }
 
 @keyframes float-in {
@@ -526,19 +520,16 @@ h5 {
     min-height: min(100vh, 860px);
   }
   .hero-grid {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     grid-template-areas:
-      "name photo"
-      "copy photo";
+      "name stage"
+      "copy stage";
     align-items: center;
     column-gap: clamp(32px, 5vw, 72px);
     row-gap: 8px;
   }
   .hero-name {
-    font-size: clamp(4.6rem, 9vw, 8.4rem);
-  }
-  .hero-photo {
-    width: min(100%, 440px);
+    font-size: clamp(4.4rem, 8vw, 8.4rem);
   }
 }
 

@@ -20,6 +20,8 @@ import {
   steps,
 } from "@/lib/content";
 
+const [sponsa, livehire] = products;
+
 const nav = [
   { href: "#help", label: "How I help" },
   { href: "#work", label: "Work" },
@@ -67,7 +69,7 @@ function Case({ p }: { p: Product }) {
   const count = p.groups.reduce((n, g) => n + g.features.length, 0);
   return (
     <article className="case" aria-labelledby={`${p.id}-title`}>
-      <BrowserFrame shot={p.shot} url={p.urlLabel} alt={`${p.name} home page, from the live site`} />
+      <BrowserFrame shot={p.shot} url={p.urlLabel} alt={`${p.name} ${p.id === "sponsa" ? "explore" : "home"} page, from the live site`} />
       <div className="case-body">
         <h3 id={`${p.id}-title`} className="case-name">
           <span className={`product-dot dot-${p.id}`} aria-hidden />
@@ -131,7 +133,7 @@ function Case({ p }: { p: Product }) {
         </details>
 
         <Ext className="case-link" href={p.url}>
-          Visit {p.urlLabel}
+          Visit {p.url.replace("https://", "")}
         </Ext>
       </div>
     </article>
@@ -173,18 +175,6 @@ export default function Home() {
               <Name text="Arbaz Khan" />
             </h1>
 
-            <div className="hero-photo">
-              {/* eslint-disable-next-line @next/next/no-img-element -- static export, pre-sized photo */}
-              <img
-                src="/arbaz-portrait.webp"
-                width={900}
-                height={1286}
-                alt="Portrait of Arbaz Khan, a bearded man in a black shirt and jacket against a dark background"
-                fetchPriority="high"
-                decoding="async"
-              />
-            </div>
-
             <div className="hero-copy">
               <p className="hero-lede">I build software that takes real payments, and keep the cloud bill low.</p>
               <p className="hero-sub">
@@ -213,6 +203,15 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div className="hero-stage">
+              <div className="stage-back">
+                <BrowserFrame shot={sponsa.shot} url={sponsa.urlLabel} alt="Sponsa, explore page of the live site" priority />
+              </div>
+              <div className="stage-front">
+                <BrowserFrame shot={livehire.shot} url={livehire.urlLabel} alt="LiveHire, home page of the live site" priority />
+              </div>
             </div>
           </div>
         </section>

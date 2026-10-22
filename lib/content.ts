@@ -41,7 +41,7 @@ export const products: Product[] = [
     name: "Sponsa",
     kind: "Platform where fans support creators",
     url: "https://sponsa.app",
-    urlLabel: "sponsa.app",
+    urlLabel: "sponsa.app/explore",
     role: "Sole engineer",
     period: "since Nov 2023",
     result: "Sole engineer on a live platform that has processed $700K+ for 500+ creators.",
