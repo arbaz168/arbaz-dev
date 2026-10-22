@@ -32,6 +32,8 @@ export interface Product {
   stack: string[];
   /** The top of the live home page, cropped to 16:10. */
   shot: { src: string; w: number; h: number };
+  /** The whole page, taller than the window; the hero previews scroll through it. */
+  scroll: { src: string; w: number; h: number; travel: string };
   groups: FeatureGroup[];
 }
 
@@ -68,6 +70,7 @@ export const products: Product[] = [
     ],
     stack: ["ASP.NET Core 10", "EF Core", "SQL Server", "React 19", "AWS", "PayPal", "Ryft", "WebSockets"],
     shot: { src: "/work/sponsa-hero.webp", w: 1100, h: 688 },
+    scroll: { src: "/work/sponsa-scroll.webp", w: 1100, h: 2758, travel: "-75.1%" },
     groups: [
       {
         name: "Moving money",
@@ -186,6 +189,7 @@ export const products: Product[] = [
     ],
     stack: ["ASP.NET Core 10", "SignalR", "SQL Server", "EF Core", "Next.js 16", "React 19", "Agora"],
     shot: { src: "/work/livehire-hero.webp", w: 1100, h: 688 },
+    scroll: { src: "/work/livehire-scroll.webp", w: 1100, h: 3139, travel: "-78.1%" },
     groups: [
       {
         name: "Money and time",

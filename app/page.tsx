@@ -207,10 +207,10 @@ export default function Home() {
 
             <div className="hero-stage">
               <div className="stage-back">
-                <BrowserFrame shot={sponsa.shot} url={sponsa.urlLabel} alt="Sponsa, explore page of the live site" priority />
+                <BrowserFrame shot={sponsa.scroll} url={sponsa.urlLabel} alt="Sponsa, explore page of the live site" priority auto />
               </div>
               <div className="stage-front">
-                <BrowserFrame shot={livehire.shot} url={livehire.urlLabel} alt="LiveHire, home page of the live site" priority />
+                <BrowserFrame shot={livehire.scroll} url={livehire.urlLabel} alt="LiveHire, home page of the live site" priority auto />
               </div>
             </div>
           </div>

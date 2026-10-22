@@ -1,4 +1,6 @@
-type Shot = { src: string; w: number; h: number };
+import type { CSSProperties } from "react";
+
+type Shot = { src: string; w: number; h: number; travel?: string };
 
 /** A browser window around a screenshot of the live site. */
 export function BrowserFrame({
@@ -6,11 +8,14 @@ export function BrowserFrame({
   url,
   alt,
   priority,
+  auto,
 }: {
   shot: Shot;
   url: string;
   alt: string;
   priority?: boolean;
+  /** Scrolls the capture on its own, like someone reading the page. */
+  auto?: boolean;
 }) {
   return (
     <div className="browser">
@@ -25,7 +30,7 @@ export function BrowserFrame({
       <div className="browser-view">
         {/* eslint-disable-next-line @next/next/no-img-element -- static export, pre-sized capture */}
         <img
-          className="shot"
+          className={`shot${auto ? " shot-auto" : ""}`}
           src={shot.src}
           width={shot.w}
           height={shot.h}
@@ -33,6 +38,7 @@ export function BrowserFrame({
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : undefined}
           decoding="async"
+          style={auto ? ({ "--travel": shot.travel } as CSSProperties) : undefined}
         />
       </div>
     </div>

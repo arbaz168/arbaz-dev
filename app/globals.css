@@ -500,6 +500,32 @@ h5 {
   animation-delay: 0.55s;
 }
 
+/* Hero previews scroll themselves, like someone reading the page. */
+.shot-auto {
+  animation: browse 38s ease-in-out 1.8s infinite alternate;
+  will-change: transform;
+}
+
+.stage-front .shot-auto {
+  animation-duration: 30s;
+  animation-delay: 2.4s;
+}
+
+.hero-stage:hover .shot-auto {
+  animation-play-state: paused;
+}
+
+@keyframes browse {
+  0%,
+  8% {
+    transform: translateY(0);
+  }
+  92%,
+  100% {
+    transform: translateY(var(--travel));
+  }
+}
+
 @keyframes float-in {
   from {
     opacity: 0;
@@ -1530,6 +1556,9 @@ h5 {
     animation-iteration-count: 1 !important;
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+  }
+  .shot-auto {
+    animation: none;
   }
 }
 
