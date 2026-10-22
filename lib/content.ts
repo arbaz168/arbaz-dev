@@ -1,6 +1,8 @@
 export const EMAIL = "arbaz.bajay@gmail.com";
 export const GITHUB = "https://github.com/arbaz168";
 export const LINKEDIN = "https://linkedin.com/in/arbazzkkhan";
+/** Dropped into public/ by hand once the resume is corrected; the links stay until then. */
+export const CV = "/Arbaz_Khan_Resume.pdf";
 
 export interface Feature {
   title: string;
@@ -20,17 +22,16 @@ export interface Product {
   urlLabel: string;
   role: string;
   period: string;
+  /** One line on the card: the result, in plain words. */
+  result: string;
   summary: string;
-  /** Short proof points shown beside the preview. */
+  /** Three proof points shown under the screenshot. */
   facts: { value: string; label: string }[];
-  /** The four features a reviewer should see first; the rest sit behind "How it's built". */
+  /** The three features a reviewer should see first; the rest sit behind "For engineers". */
   highlights: Feature[];
   stack: string[];
-  /** Full-page captures of the live site. travel is how far the capture scrolls inside its frame. */
-  shots: {
-    desktop: { src: string; w: number; h: number; travel: string };
-    mobile: { src: string; w: number; h: number; travel: string };
-  };
+  /** The top of the live home page, cropped to 16:10. */
+  shot: { src: string; w: number; h: number };
   groups: FeatureGroup[];
 }
 
@@ -38,41 +39,35 @@ export const products: Product[] = [
   {
     id: "sponsa",
     name: "Sponsa",
-    kind: "Creator monetization platform",
+    kind: "Platform where fans support creators",
     url: "https://sponsa.app",
     urlLabel: "sponsa.app",
     role: "Sole engineer",
     period: "since Nov 2023",
+    result: "Sole engineer on a live platform that has processed $700K+ for 500+ creators.",
     summary:
-      "Supporters tip creators toward funding goals, live on stream. Money moves through PayPal and Ryft, and alerts have to reach OBS within seconds. In production with 2,000+ registered users. I own the architecture, backend, frontend, AWS infrastructure, releases and incident response.",
+      "Supporters tip creators toward funding goals, live on stream. Real money moves through PayPal, Stripe and Ryft, and thank-you alerts appear on the creator's broadcast within seconds. It has processed $700K+ for 500+ creators. I'm the only engineer: design, code, cloud setup, releases and fixing problems when they happen.",
     facts: [
-      { value: "2,000+", label: "registered users" },
-      { value: "3", label: "payment providers" },
-      { value: "360+", label: "automated API tests" },
+      { value: "$700K+", label: "in payments processed" },
+      { value: "500+", label: "creators earning on it" },
+      { value: "~35%", label: "off the monthly AWS bill" },
     ],
     highlights: [
       {
-        title: "Payments that never double charge",
-        body: "Every PayPal and Ryft webhook is verified, stored and retried, and a redelivery is dropped on its event id.",
+        title: "Nobody gets charged twice",
+        body: "Payment providers sometimes send the same notification more than once. Each one is checked, recorded and acted on only once.",
       },
       {
-        title: "A safety net for lost webhooks",
-        body: "A reconciliation job finds payments the provider completed but we never heard about, and logs every fix.",
+        title: "Lost payments get found",
+        body: "A background check finds payments the provider completed but our system never heard about, fixes them and keeps a log.",
       },
       {
         title: "Alerts on stream within seconds",
-        body: "Tips and goal progress pushed to OBS over WebSockets while the creator is live.",
-      },
-      {
-        title: "Images sized for every screen",
-        body: "S3, CloudFront and Lambda resize on first request. A 393 KB upload reaches a phone as 32 KB.",
+        body: "Tips and goal progress appear live on the creator's broadcast while they're on air.",
       },
     ],
     stack: ["ASP.NET Core 10", "EF Core", "SQL Server", "React 19", "AWS", "PayPal", "Ryft", "WebSockets"],
-    shots: {
-      desktop: { src: "/work/sponsa-desktop.webp", w: 2160, h: 7914, travel: "-83%" },
-      mobile: { src: "/work/sponsa-mobile.webp", w: 780, h: 10842, travel: "-84%" },
-    },
+    shot: { src: "/work/sponsa-hero.webp", w: 1100, h: 688 },
     groups: [
       {
         name: "Moving money",
@@ -162,41 +157,35 @@ export const products: Product[] = [
   {
     id: "livehire",
     name: "LiveHire",
-    kind: "Managed talent hiring platform",
+    kind: "Hiring platform for pre-vetted developers",
     url: "https://livehire.gentechs.io",
     urlLabel: "livehire.gentechs.io",
     role: "Lead engineer",
     period: "since Aug 2025",
+    result: "Took over a hiring platform and rebuilt its billing, time tracking and live chat.",
     summary:
-      "Companies hire pre-vetted developers and run the whole engagement in one place: chat and calls, time tracking, milestones and billing. I took over an existing codebase and rebuilt it across two APIs, a Next.js portal for companies and developers, and an admin console.",
+      "Companies hire pre-vetted developers and manage the whole working relationship in one place: chat and video calls, tracked hours, milestones and billing. I took over an existing codebase and rebuilt it, so money is held safely, hours can be trusted and everyone sees updates instantly.",
     facts: [
-      { value: "2", label: "APIs sharing one database" },
-      { value: "63", label: "missing indexes added" },
-      { value: "22", label: "end to end test harnesses" },
+      { value: "63", label: "database speed-ups added" },
+      { value: "22", label: "automated end to end checks" },
+      { value: "9 to 0", label: "refresh timers per tab, now instant updates" },
     ],
     highlights: [
       {
-        title: "Escrow billing with a ledger",
-        body: "Funds are held at hire and settled each period against approved time. Every movement is a ledger row.",
+        title: "Money held safely until work is approved",
+        body: "Funds are reserved when a developer is hired and paid out against approved hours. Every movement is recorded.",
       },
       {
-        title: "Time the server can vouch for",
-        body: "The server stamps every start, stop and break, and one running timer per developer is enforced in the database.",
+        title: "Hours you can trust",
+        body: "The server, not the browser, records every start, stop and break, and only one timer can run per developer.",
       },
       {
-        title: "Chat and calls that hold together",
-        body: "SignalR chat with presence, typing, edits and search, plus video calls from inside a conversation.",
-      },
-      {
-        title: "Push instead of polling",
-        body: "Notifications go out the moment they commit, replacing nine polling timers per browser tab.",
+        title: "Chat and calls in one place",
+        body: "Messaging with online status and search, plus video calls started from inside a conversation.",
       },
     ],
     stack: ["ASP.NET Core 10", "SignalR", "SQL Server", "EF Core", "Next.js 16", "React 19", "Agora"],
-    shots: {
-      desktop: { src: "/work/livehire-desktop.webp", w: 2160, h: 6164, travel: "-78%" },
-      mobile: { src: "/work/livehire-mobile.webp", w: 780, h: 13814, travel: "-88%" },
-    },
+    shot: { src: "/work/livehire-hero.webp", w: 1100, h: 688 },
     groups: [
       {
         name: "Money and time",
@@ -292,36 +281,80 @@ export const repos = [
   },
 ];
 
+/** The headline results, shown in the hero. All from the resume. */
+export const proof = [
+  { value: "$700K+", label: "in payments processed" },
+  { value: "500+", label: "creators earning on it" },
+  { value: "~35%", label: "off the monthly AWS bill" },
+  { value: "6+ yrs", label: "shipping to real users" },
+];
+
 /** One employer, with the client products I lead nested under it. */
 export const experience = {
   title: "Lead Full Stack Engineer",
-  org: "CoinBitSolutions",
+  org: "CoinBitSolutions, Lahore, Pakistan",
   period: "Jan 2020 to present",
+  note: "Joined as a frontend developer, promoted to Lead in 2024.",
   roles: [
     { name: "LiveHire", period: "since Aug 2025", body: "Lead engineer. Took over an existing hiring platform and rebuilt billing, time tracking and the real-time workspace." },
-    { name: "Sponsa", period: "since Nov 2023", body: "Sole engineer on a creator tipping platform, taken to production and 2,000+ registered users." },
-    { name: "Client platforms", period: "2020 to 2023", body: "Healthcare and fintech products for international clients: REST APIs, SQL Server schemas, admin portals and trading UIs." },
+    { name: "Sponsa", period: "since Nov 2023", body: "Sole engineer on a creator support platform, taken to production: 2,000+ users, 500+ creators and $700K+ in payments." },
+    { name: "Client platforms", period: "2020 to 2023", body: "A US healthcare platform for clinics, doctors and patients, and a cryptocurrency exchange: APIs, databases, admin portals and trading screens." },
   ],
-  cert: { name: "Microsoft Certified: Azure Administrator Associate", period: "2026" },
+  certs: [
+    { name: "AWS Certified Cloud Practitioner", period: "2026" },
+    { name: "Microsoft Certified: Azure Administrator Associate", period: "2026" },
+  ],
 };
 
 export const services = [
   {
-    title: "Your SaaS, end to end",
-    body: "An ASP.NET Core API, a React or Next.js frontend and the AWS or Azure setup to run it, built by one engineer who has taken products to production.",
+    title: "Get your product built",
+    body: "Tell me the idea. I design it, build the website and the system behind it, put it online and look after it. One person who understands the whole thing, so nothing falls between teams.",
   },
   {
-    title: "Payments that add up",
-    body: "PayPal, Stripe Connect or Ryft wired in properly: verified webhooks, retries, refunds and a reconciliation job, so no payment goes missing.",
+    title: "Take payments without the headaches",
+    body: "PayPal, Stripe or Ryft set up so customers are charged once, refunds work and every payment is accounted for. Sponsa has processed $700K+ this way.",
   },
   {
-    title: "Real-time features",
-    body: "Live chat, notifications, presence and stream overlays with SignalR or WebSockets that survive reconnects and bursts.",
+    title: "Lower your cloud bill",
+    body: "I look at what you run on AWS or Azure and move the heavy parts to cheaper, faster services. On Sponsa that meant a bill about 35% lower and pages that load faster.",
   },
   {
-    title: "Rescue and upgrade",
-    body: "Take over an existing codebase, fix what is slowing it down, move it to current .NET and React, and leave it tested.",
+    title: "Make it live and instant",
+    body: "Chat, notifications, live counters and stream alerts that update the moment something happens, with nobody refreshing the page.",
   },
+  {
+    title: "Rescue software that's struggling",
+    body: "Slow, fragile or out of date? I find what's holding it back, fix it, bring it up to date and leave it tested so the next change is safe.",
+  },
+];
+
+/** How a project starts. Process only; no timings or prices promised. */
+export const steps = [
+  { title: "Tell me what you need", body: "A short email about the product, the problem or the role. You talk to me, not a sales team." },
+  { title: "I send a plan and an estimate", body: "What gets built, in what order and what it costs, written down before any work starts." },
+  { title: "We build, and I stay after launch", body: "You work directly with the engineer building it, and I keep it running once it is live, as I have on Sponsa since 2023." },
+];
+
+/** The before and after of the Sponsa image move, in plain words. */
+export const cloudBefore = [
+  { title: "A visitor opens a page", detail: "and asks for the pictures on it" },
+  { title: "One server answers", detail: "It runs the whole app and also sends every image at full size" },
+];
+
+export const cloudAfter = [
+  { title: "Upload to S3", detail: "Low-cost storage built for files" },
+  { title: "Lambda makes the sizes", detail: "A thumbnail and one size per screen, made once" },
+  { title: "CloudFront delivers it", detail: "Cached copies served close to the visitor" },
+];
+
+export const cloudAlso = [
+  "EC2 servers on Windows Server and IIS",
+  "S3 with automated daily backups and lifecycle rules",
+  "SSL certificates, security groups and DNS",
+  "Automated deploys with GitHub Actions",
+  "Azure staging setup: App Service, Azure SQL, AKS",
+  "Docker images and Azure DevOps pipelines",
 ];
 
 export const stack = [
@@ -329,6 +362,6 @@ export const stack = [
   { area: "Real time", tools: ["WebSockets", "SignalR", "Agora"] },
   { area: "Frontend", tools: ["React 19", "Next.js", "TypeScript", "Vite", "Tailwind CSS", "TanStack Query"] },
   { area: "Payments", tools: ["PayPal", "Ryft", "Stripe Connect", "Webhooks", "Reconciliation"] },
-  { area: "Cloud", tools: ["AWS EC2", "S3", "CloudFront", "Lambda", "Azure", "IIS", "Docker", "Kubernetes"] },
+  { area: "Cloud", tools: ["AWS EC2", "S3", "CloudFront", "Lambda", "IAM", "Azure App Service", "Azure SQL", "AKS", "Docker", "Kubernetes", "IIS"] },
   { area: "Delivery", tools: ["GitHub Actions", "Azure DevOps", "xUnit", "Vitest", "Serilog", "Seq", "Sentry"] },
 ];

@@ -8,7 +8,7 @@ const sans = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--
 
 const title = "Arbaz Khan, Senior Full Stack Engineer";
 const description =
-  "Senior full stack engineer. ASP.NET Core, React and AWS. I build and run production SaaS, with a focus on payments, webhooks and real-time systems.";
+  "Senior engineer who builds the software behind your business: payments, live features and cloud setup that keeps the bill low. $700K+ processed, AWS bill cut by about 35%.";
 
 export const metadata: Metadata = {
   title,
